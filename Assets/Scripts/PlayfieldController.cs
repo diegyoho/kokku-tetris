@@ -8,7 +8,7 @@ public class PlayfieldController :
         
     public Vector2Int dimensions;
     public float gravity;
-    public Block[, ] matrix;
+    public static Block[, ] matrix;
     public static TetrominoBase currentTetromino;
 
     float lastTimeFall;
@@ -19,7 +19,7 @@ public class PlayfieldController :
 
     void Update() {
         if(Time.time - lastTimeFall >= 1f/(60*gravity)) {
-            currentTetromino.Move(Vector2Int.down);
+            currentTetromino.Drop();
             lastTimeFall = Time.time;
         }
     }
@@ -56,7 +56,7 @@ public class PlayfieldController :
                     block.matrixPosition.x < 0 ||
                     block.matrixPosition.x >= instance.dimensions.x ||
                     block.matrixPosition.y < 0 ||
-                    instance.matrix[
+                    matrix[
                         block.matrixPosition.x,
                         block.matrixPosition.y
                     ]
