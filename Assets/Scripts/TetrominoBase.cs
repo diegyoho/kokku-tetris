@@ -42,26 +42,7 @@ public class TetrominoBase : MonoBehaviour {
         PlayfieldController.currentTetromino = this;
     }
 
-    void Update() {
-        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.X)) {
-            WallKick(1);
-        } else if(Input.GetKeyDown(KeyCode.Z)) {
-            WallKick(-1);
-        }
-        if(Input.GetKeyDown(KeyCode.RightArrow)) {
-            Move(Vector2Int.right);
-        } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
-            Move(Vector2Int.left);
-        }
-
-        if(Input.GetKeyDown(KeyCode.DownArrow)) {
-            PlayfieldController.instance.gravity *= 5;
-        } else if(Input.GetKeyUp(KeyCode.DownArrow)) {
-            PlayfieldController.instance.gravity /= 5;
-        }
-    }
-
-    void SetPosition(Vector2Int position) {
+    public void SetPosition(Vector2Int position) {
         transform.position = new Vector3(position.x, position.y);
     }
 
@@ -94,7 +75,7 @@ public class TetrominoBase : MonoBehaviour {
         currentOrientation = nextOrientation;
     }
 
-    void WallKick(int sign) {
+    public void WallKick(int sign) {
         Rotate(sign, basicOffsets);
 
         if(!PlayfieldController.ValidPosition(this)) {
@@ -135,8 +116,8 @@ public class TetrominoBase : MonoBehaviour {
         yield return new WaitForSeconds(.5f);
 
         blocks.ForEach(block => block.Lock());
-        PlayfieldController.instance.ClearRows();
-        PlayfieldController.instance.SpawnTetromino();
+        PlayfieldController.ClearRows();
+        PlayfieldController.SpawnTetromino();
 
         Destroy(gameObject);
     }

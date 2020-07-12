@@ -14,6 +14,9 @@ public class PlayfieldController :
     List<GameObject> bag = new List<GameObject>();
 
     float lastTimeFall;
+    float lastGravity;
+
+    Coroutine das;
 
     void Start() {
         Setup();
@@ -21,7 +24,9 @@ public class PlayfieldController :
     }
 
     void Update() {
-        if(Time.time - lastTimeFall >= 1f/(60*gravity)) {
+        HandleInput();
+        
+        if(Time.time - lastTimeFall >= Speed(gravity)) {
             currentTetromino.Drop();
             lastTimeFall = Time.time;
         }
@@ -48,6 +53,60 @@ public class PlayfieldController :
         );
 
         FillBag();
+    }
+
+    void HandleInput() {
+        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.X)) {
+            currentTetromino.WallKick(1);
+        } else if(Input.GetKeyDown(KeyCode.Z)) {
+            currentTetromino.WallKick(-1);
+        }
+
+        if(Input.GetKeyDown(KeyCode.RightArrow)) {
+            if(das != null) {
+                StopCoroutine(das);
+                das = null;
+            }
+
+            currentTetromino.Move(Vector2Int.right);
+            das = StartCoroutine(DelayAutoShift(Vector2Int.right));
+        } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
+            if(das != null) {
+                StopCoroutine(das);
+                das = null;
+            }
+
+            currentTetromino.Move(Vector2Int.left);
+            das = StartCoroutine(DelayAutoShift(Vector2Int.left));
+        }
+
+        if(Input.GetKeyDown(KeyCode.DownArrow)) {
+            lastGravity = PlayfieldController.instance.gravity;
+            gravity = 1/3f;
+        } else if(Input.GetKeyUp(KeyCode.DownArrow)) {
+            gravity = lastGravity;
+        }
+    }
+
+    IEnumerator DelayAutoShift(Vector2Int position) {
+        yield return new WaitForSeconds(Speed(.05f));
+
+        while(
+            Input.GetKey(KeyCode.RightArrow) ||
+            Input.GetKey(KeyCode.LeftArrow)
+        ) {
+            if(Input.GetKey(KeyCode.RightArrow)) {
+                currentTetromino.Move(Vector2Int.right);
+            } else if(Input.GetKey(KeyCode.LeftArrow)) {
+                currentTetromino.Move(Vector2Int.left);
+            }
+
+            yield return new WaitForSeconds(Speed(1f/3f));
+        }
+    }
+
+    public static float Speed(float gravity) {
+        return 1f/(60f * gravity);
     }
 
     public static bool ValidPosition(
@@ -79,27 +138,30 @@ public class PlayfieldController :
         bag.Shuffle();
     }
 
-    public void SpawnTetromino() {
-        GameObject tetromino = bag[0];
-        bag.RemoveAt(0);
+    public static void SpawnTetromino() {
+        GameObject tetromino = instance.bag[0];
+        instance.bag.RemoveAt(0);
 
         Instantiate(
             tetromino,
-            new Vector3(dimensions.x/2 - 1, dimensions.y),
+            new Vector3(
+                instance.dimensions.x/2 - 1,
+                instance.dimensions.y
+            ),
             Quaternion.identity
         );
 
-        if(bag.Count == 0)
-            FillBag();
+        if(instance.bag.Count == 0)
+            instance.FillBag();
     }
 
-    public void ClearRows() {
+    public static void ClearRows() {
         int fallHeight = 0;
         List<Block> cleared = new List<Block>();
-        for(int y = 0; y < dimensions.y; ++y) {
+        for(int y = 0; y < instance.dimensions.y; ++y) {
             cleared.Clear();
 
-            for(int x = 0; x < dimensions.x; ++x) {
+            for(int x = 0; x < instance.dimensions.x; ++x) {
                 if(matrix[x, y]) {
                     cleared.Add(matrix[x, y]);
                     
@@ -114,7 +176,7 @@ public class PlayfieldController :
                 }
             }
 
-            if(cleared.Count == dimensions.x) {
+            if(cleared.Count == instance.dimensions.x) {
                 cleared.ForEach(block => Destroy(block.gameObject));
                 fallHeight++;
             }
