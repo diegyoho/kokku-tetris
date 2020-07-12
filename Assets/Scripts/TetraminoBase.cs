@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Utilities;
 
+[System.Serializable]
+public class OffsetList {
+    public Vector2Int[] offsets = new Vector2Int[4];
+}
 
 public enum TetraminoLetter {
     I,
@@ -18,9 +22,9 @@ public class TetraminoBase : MonoBehaviour {
 
     public TetraminoLetter letter;
     public int currentOrientation;
-    public Vector2Int[] offsets = new Vector2Int[4];
-
     public List<Block> blocks = new List<Block>();
+    public Vector2Int[] basicOffsets = new Vector2Int[4];
+    public List<OffsetList> offsetsList = new List<OffsetList>();
 
     Vector2Int matrixPosition {
         get {
@@ -37,9 +41,9 @@ public class TetraminoBase : MonoBehaviour {
 
     void Update() {
         if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.X)) {
-            Rotate(1);
+            WallKick(1);
         } else if(Input.GetKeyDown(KeyCode.Z)) {
-            Rotate(-1);
+            WallKick(-1);
         }
         if(Input.GetKeyDown(KeyCode.RightArrow)) {
             Move(matrixPosition + Vector2Int.right);
@@ -48,7 +52,19 @@ public class TetraminoBase : MonoBehaviour {
         }
     }
 
-    void Rotate(int sign) {
+    void SetPosition(Vector2Int position) {
+        transform.position = new Vector3(position.x, position.y);
+    }
+
+    void Move(Vector2Int position) {
+        Vector2Int lastPosition = matrixPosition;
+        SetPosition(position);
+        
+        if(!PlayfieldController.ValidPosition(this))
+            SetPosition(lastPosition);
+    }
+
+    void Rotate(int sign, Vector2Int[] offsets) {
         int nextOrientation = Miscellaneous.Mod(currentOrientation + sign, 4);
             
         Vector2Int offset = (
@@ -64,15 +80,20 @@ public class TetraminoBase : MonoBehaviour {
         currentOrientation = nextOrientation;
     }
 
-    void SetPosition(Vector2Int position) {
-        transform.position = new Vector3(position.x, position.y);
-    }
+    void WallKick(int sign) {
+        Rotate(sign, basicOffsets);
 
-    void Move(Vector2Int position) {
-        Vector2Int lastPosition = matrixPosition;
-        SetPosition(position);
-        
-        if(!PlayfieldController.ValidPosition(this))
-            SetPosition(lastPosition);
+        if(!PlayfieldController.ValidPosition(this)) {
+            Rotate(-sign, basicOffsets);
+
+            foreach(OffsetList ol in offsetsList) {
+                Rotate(sign, ol.offsets);
+
+                if(PlayfieldController.ValidPosition(this))
+                    break;
+
+                Rotate(-sign, ol.offsets);
+            }
+        }  
     }
 }
