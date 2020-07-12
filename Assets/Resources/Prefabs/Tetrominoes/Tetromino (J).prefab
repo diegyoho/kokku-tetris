@@ -85,7 +85,7 @@ PrefabInstance:
     - target: {fileID: 5853883251458359757, guid: 2bbffef1ae82489458e79abf4f1f6ee5,
         type: 3}
       propertyPath: m_Name
-      value: Tetramino (J)
+      value: Tetromino (J)
       objectReference: {fileID: 0}
     - target: {fileID: 7313046148183158183, guid: 2bbffef1ae82489458e79abf4f1f6ee5,
         type: 3}

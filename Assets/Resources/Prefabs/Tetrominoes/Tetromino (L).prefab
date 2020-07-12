@@ -25,12 +25,17 @@ PrefabInstance:
     - target: {fileID: 3971015414640362613, guid: 5faf9e2c9c990cf4dbccc3e3270ad496,
         type: 3}
       propertyPath: m_Name
-      value: Tetramino (L)
+      value: Tetromino (L)
       objectReference: {fileID: 0}
     - target: {fileID: 6869929933598405138, guid: 5faf9e2c9c990cf4dbccc3e3270ad496,
         type: 3}
       propertyPath: letter
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869929933598405138, guid: 5faf9e2c9c990cf4dbccc3e3270ad496,
+        type: 3}
+      propertyPath: currentOrientation
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7284467272598426790, guid: 5faf9e2c9c990cf4dbccc3e3270ad496,
         type: 3}
@@ -45,7 +50,7 @@ PrefabInstance:
     - target: {fileID: 8218139165561786508, guid: 5faf9e2c9c990cf4dbccc3e3270ad496,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -31
       objectReference: {fileID: 0}
     - target: {fileID: 8218139165561786508, guid: 5faf9e2c9c990cf4dbccc3e3270ad496,
         type: 3}
@@ -65,12 +70,12 @@ PrefabInstance:
     - target: {fileID: 8218139165561786508, guid: 5faf9e2c9c990cf4dbccc3e3270ad496,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 8218139165561786508, guid: 5faf9e2c9c990cf4dbccc3e3270ad496,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 8218139165561786508, guid: 5faf9e2c9c990cf4dbccc3e3270ad496,
         type: 3}

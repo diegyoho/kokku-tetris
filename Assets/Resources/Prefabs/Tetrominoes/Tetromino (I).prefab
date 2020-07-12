@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 3772091362536361149, guid: 99a45b89712e18b4b8fb1d98efd76119,
         type: 3}
       propertyPath: m_Name
-      value: Tetramino (I)
+      value: Tetromino (I)
       objectReference: {fileID: 0}
     - target: {fileID: 6634977085272455898, guid: 99a45b89712e18b4b8fb1d98efd76119,
         type: 3}
@@ -147,15 +147,20 @@ PrefabInstance:
       propertyPath: offsetsList.Array.data[3].offsets.Array.data[3].y
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6634977085272455898, guid: 99a45b89712e18b4b8fb1d98efd76119,
+        type: 3}
+      propertyPath: centerOffset.x
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8164597755683592260, guid: 99a45b89712e18b4b8fb1d98efd76119,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8164597755683592260, guid: 99a45b89712e18b4b8fb1d98efd76119,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -159
       objectReference: {fileID: 0}
     - target: {fileID: 8164597755683592260, guid: 99a45b89712e18b4b8fb1d98efd76119,
         type: 3}

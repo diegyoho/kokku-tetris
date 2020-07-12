@@ -12,4 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 447a440c2e56f2e4fb2edf666eb5925a, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  audioClipInfos: []
+  audioClipInfos:
+  - name: BGM
+    clip: {fileID: 8300000, guid: 590e04232a2f25b42b08a6a59505503f, type: 3}
+  - name: Land
+    clip: {fileID: 8300000, guid: 18073e1132290d5498d1ee585be6ed38, type: 3}
+  - name: Clear
+    clip: {fileID: 8300000, guid: 23d2a622688594041bef373949a6ca7e, type: 3}
+  - name: Top out
+    clip: {fileID: 8300000, guid: 0568d1ab365c1eb45936e5e2213badda, type: 3}

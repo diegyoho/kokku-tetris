@@ -23,6 +23,7 @@ public class TetrominoBase : MonoBehaviour {
     public TetrominoLetter letter;
     public int currentOrientation;
     public List<Block> blocks = new List<Block>();
+    public Vector2 centerOffset;
     public Vector2Int[] basicOffsets = new Vector2Int[4];
     public List<OffsetList> offsetsList = new List<OffsetList>();
 
@@ -42,7 +43,6 @@ public class TetrominoBase : MonoBehaviour {
 
     void Start() {
         blocks.AddRange(transform.GetComponentsInChildren<Block>());
-        PlayfieldController.currentTetromino = this;
     }
 
     public void SetPosition(Vector2Int position) {

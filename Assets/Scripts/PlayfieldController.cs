@@ -8,15 +8,18 @@ public class PlayfieldController :
         
     public Vector2Int dimensions;
     public float gravity;
+    public Transform nextPosition;
+    public TetrominoBase currentTetromino;
+    public TetrominoBase nextTetromino;
     public static Block[, ] matrix;
-    public static TetrominoBase currentTetromino;
 
-    List<GameObject> bag = new List<GameObject>();
+    List<TetrominoBase> bag = new List<TetrominoBase>();
 
     float lastTimeFall;
     float lastGravity;
 
     Coroutine das;
+    
 
     void Start() {
         Setup();
@@ -54,14 +57,7 @@ public class PlayfieldController :
         );
 
         FillBag();
-
-        StartCoroutine(DelaySpawn());
-    }
-
-    IEnumerator DelaySpawn() {
-        yield return new WaitForSeconds(1f);
-        SpawnTetromino();
-        lastTimeFall = Time.time;
+        SetNextTetramino();
     }
 
     void HandleInput() {
@@ -147,22 +143,46 @@ public class PlayfieldController :
     }
 
     void FillBag() {
-        bag = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/Tetrominoes"));
+        bag = new List<TetrominoBase>(Resources.LoadAll<TetrominoBase>("Prefabs/Tetrominoes"));
         bag.Shuffle();
     }
 
+    public static void StartSpawn() {
+        instance.StartCoroutine(
+            instance.DelaySpawn()
+        );
+    }
+
+    IEnumerator DelaySpawn() {
+        yield return new WaitForSeconds(1f);
+        SpawnTetromino();
+        lastTimeFall = Time.time;
+    }
+
     public static void SpawnTetromino() {
-        GameObject tetromino = instance.bag[0];
+
+        instance.nextTetromino.transform.SetParent(null);
+        instance.nextTetromino.transform.position = new Vector3(
+            instance.dimensions.x/2 - 1,
+            instance.dimensions.y
+        );
+        
+        instance.currentTetromino = instance.nextTetromino;
+
+        instance.SetNextTetramino();
+    }
+
+    void SetNextTetramino() {
+        nextTetromino = instance.bag[0];
         instance.bag.RemoveAt(0);
 
-        Instantiate(
-            tetromino,
-            new Vector3(
-                instance.dimensions.x/2 - 1,
-                instance.dimensions.y
-            ),
-            Quaternion.identity
-        );
+        nextTetromino = Instantiate(
+            nextTetromino.gameObject,
+            nextPosition.position -
+            (Vector3) nextTetromino.centerOffset,
+            Quaternion.identity,
+            nextPosition
+        ).GetComponent<TetrominoBase>();
 
         if(instance.bag.Count == 0)
             instance.FillBag();
@@ -206,6 +226,6 @@ public class PlayfieldController :
     public static void GameOver() {
         GameplayUIController.ShowGameOver();
         SoundController.PlaySfx(GameData.GetAudioClip("Top out"));
-        currentTetromino = null;
+        instance.currentTetromino = null;
     }
 }

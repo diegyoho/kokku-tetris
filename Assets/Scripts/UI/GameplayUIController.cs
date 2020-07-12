@@ -9,14 +9,15 @@ public class GameplayUIController :
     
     [Header("Screens")]
     [SerializeField]
-    CanvasGroup gameOverScreen;
+    CanvasGroup gameOverScreen = null;
 
     [Header("HUD")]
     [SerializeField]
-    Text score;
+    Text score = null;
 
     public static void UpdateScore() {
-        instance.score.text = $"Score: {GameController.saveData.score}";
+        instance.score.text = GameController.saveData
+                                .score.ToString("D6");
     }
 
     public static void ShowGameOver() {
@@ -26,6 +27,6 @@ public class GameplayUIController :
     }
 
     public void BackToMainMenu() {
-        LoadingController.LoadScene(0);
+        GameController.Quit();
     }
 }

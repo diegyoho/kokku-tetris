@@ -8,6 +8,6 @@ public class MainMenuUIController :
     UIControllerBase<MainMenuUIController> {
 
     public void GoToGameplay() {
-        LoadingController.LoadScene(1);
+        GameController.Play();
     }
 }

@@ -25,7 +25,7 @@ PrefabInstance:
     - target: {fileID: 3971015414640362613, guid: 5faf9e2c9c990cf4dbccc3e3270ad496,
         type: 3}
       propertyPath: m_Name
-      value: Tetramino (S)
+      value: Tetromino (S)
       objectReference: {fileID: 0}
     - target: {fileID: 5486719818688039691, guid: 5faf9e2c9c990cf4dbccc3e3270ad496,
         type: 3}
@@ -45,12 +45,12 @@ PrefabInstance:
     - target: {fileID: 8218139165561786508, guid: 5faf9e2c9c990cf4dbccc3e3270ad496,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 8218139165561786508, guid: 5faf9e2c9c990cf4dbccc3e3270ad496,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -89
       objectReference: {fileID: 0}
     - target: {fileID: 8218139165561786508, guid: 5faf9e2c9c990cf4dbccc3e3270ad496,
         type: 3}

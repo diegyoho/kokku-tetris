@@ -7,7 +7,7 @@ namespace Utilities {
 		MonoBehaviour where T : Component {
 		
 		[SerializeField]
-		bool dontDestroyOnLoad;
+		bool dontDestroyOnLoad = false;
 		static T _ins;
 
 		public static T instance {

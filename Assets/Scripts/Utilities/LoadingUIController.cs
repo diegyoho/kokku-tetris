@@ -10,13 +10,13 @@ public class LoadingUIController :
     
     [Header("Screens")]
     [SerializeField]
-    CanvasGroup loadingScreen;
+    CanvasGroup loadingScreen = null;
 
     [Header("Loading Screen")]
     [SerializeField]
-    Slider loadingBar;
+    Slider loadingBar = null;
     [SerializeField]
-    TextMeshProUGUI progressText;
+    TextMeshProUGUI progressText = null;
     
     void Start() {
         UpdateLoadingBar(0);
