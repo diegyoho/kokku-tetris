@@ -24,11 +24,13 @@ public class PlayfieldController :
     }
 
     void Update() {
-        HandleInput();
+        if(currentTetromino) {
+            HandleInput();
         
-        if(Time.time - lastTimeFall >= Speed(gravity)) {
-            currentTetromino.Drop();
-            lastTimeFall = Time.time;
+            if(Time.time - lastTimeFall >= Speed(gravity)) {
+                currentTetromino.Drop();
+                lastTimeFall = Time.time;
+            }
         }
     }
 
@@ -115,11 +117,15 @@ public class PlayfieldController :
 
         foreach(Block block in tetromino.blocks) {
             if(
-                block.matrixPosition.y < instance.dimensions.y &&
                 (
-                    block.matrixPosition.x < 0 ||
-                    block.matrixPosition.x >= instance.dimensions.x ||
-                    block.matrixPosition.y < 0 ||
+                    tetromino.isLanded &&
+                    block.matrixPosition.y >= instance.dimensions.y
+                ) ||
+                block.matrixPosition.x < 0 ||
+                block.matrixPosition.x >= instance.dimensions.x ||
+                block.matrixPosition.y < 0 ||
+                (
+                    block.matrixPosition.y < instance.dimensions.y &&
                     matrix[
                         block.matrixPosition.x,
                         block.matrixPosition.y
@@ -181,5 +187,10 @@ public class PlayfieldController :
                 fallHeight++;
             }
         }
+    }
+
+    public static void GameOver() {
+        Debug.Log("Game Over!");
+        currentTetromino = null;
     }
 }

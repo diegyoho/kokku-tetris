@@ -19,15 +19,10 @@ public class Block : MonoBehaviour {
 
     public void Lock() {
         transform.SetParent(null);
+        
         PlayfieldController.matrix[
             matrixPosition.x,
             matrixPosition.y
         ] = this;
-
-        // Instantiate(
-        //     Resources.Load<GameObject>("Prefabs/Tetrominoes/Block"),
-        //     new Vector3(matrixPosition.x, matrixPosition.y),
-        //     Quaternion.identity
-        // );
     }
 }

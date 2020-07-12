@@ -36,6 +36,9 @@ public class TetrominoBase : MonoBehaviour {
     }
 
     Coroutine landed;
+    public bool isLanded {
+        get { return landed != null; }
+    }
 
     void Start() {
         blocks.AddRange(transform.GetComponentsInChildren<Block>());
@@ -115,10 +118,14 @@ public class TetrominoBase : MonoBehaviour {
     IEnumerator LockDelay() {
         yield return new WaitForSeconds(.5f);
 
-        blocks.ForEach(block => block.Lock());
-        PlayfieldController.ClearRows();
-        PlayfieldController.SpawnTetromino();
+        if(PlayfieldController.ValidPosition(this)) {
+            blocks.ForEach(block => block.Lock());
+            PlayfieldController.ClearRows();
+            PlayfieldController.SpawnTetromino();
 
-        Destroy(gameObject);
+            Destroy(gameObject);
+        } else {
+            PlayfieldController.GameOver();
+        }
     }
 }
