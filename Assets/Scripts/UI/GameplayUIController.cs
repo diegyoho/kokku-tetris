@@ -16,7 +16,7 @@ public class GameplayUIController :
     Text score;
 
     public static void UpdateScore() {
-        instance.score.text = $"Score: {GameController.data.score}";
+        instance.score.text = $"Score: {GameController.saveData.score}";
     }
 
     public static void ShowGameOver() {

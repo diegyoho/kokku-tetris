@@ -49,17 +49,21 @@ public class TetrominoBase : MonoBehaviour {
         transform.position = new Vector3(position.x, position.y);
     }
 
-    public void Move(Vector2Int position) {
+    public bool Move(Vector2Int position) {
         Vector2Int lastPosition = matrixPosition;
         SetPosition(matrixPosition + position);
-        
-        if(!PlayfieldController.ValidPosition(this))
-            SetPosition(lastPosition);
         
         if(landed != null) {
             StopCoroutine(landed);
             landed = null;
         }
+
+        if(!PlayfieldController.ValidPosition(this)) {
+            SetPosition(lastPosition);
+            return false;
+        }
+
+        return true;
     }
 
     void Rotate(int sign, Vector2Int[] offsets) {
@@ -103,13 +107,15 @@ public class TetrominoBase : MonoBehaviour {
     public void Drop() {
         if(landed != null) return;
 
-        Move(Vector2Int.down);
+        bool fall = Move(Vector2Int.down);
         
         Vector2Int lastPosition = matrixPosition;
         SetPosition(matrixPosition + Vector2Int.down);
         
         if(!PlayfieldController.ValidPosition(this)) {
             landed = StartCoroutine(LockDelay());
+            if(fall)
+                SoundController.PlaySfx(GameData.GetAudioClip("Land"));
         }
         
         SetPosition(lastPosition);
@@ -117,7 +123,7 @@ public class TetrominoBase : MonoBehaviour {
 
     IEnumerator LockDelay() {
         yield return new WaitForSeconds(.5f);
-
+        
         if(PlayfieldController.ValidPosition(this)) {
             blocks.ForEach(block => block.Lock());
             PlayfieldController.ClearRows();

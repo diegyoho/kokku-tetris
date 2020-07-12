@@ -7,10 +7,13 @@ public class GameController :
     SingletonMonoBehaviour<GameController> {
     
     public int[] scorePerRows;
-    public static GameData data;
+
+    public GameData gameData;
+    public static SaveData saveData;
 
     void Start() {
-        data = new GameData();
+        saveData = new SaveData();
+        SoundController.PlayMusic(GameData.GetAudioClip("BGM"), .5f);
     }
 
     public static void Score(int rowsCleared) {
@@ -18,6 +21,6 @@ public class GameController :
             rowsCleared - 1, 0, instance.scorePerRows.Length - 1
         );
 
-        data.score += instance.scorePerRows[rowsCleared];
+        saveData.score += instance.scorePerRows[rowsCleared];
     }
 }

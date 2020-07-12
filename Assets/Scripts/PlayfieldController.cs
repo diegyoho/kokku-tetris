@@ -199,11 +199,13 @@ public class PlayfieldController :
         if(rowsCleared > 0) {
             GameController.Score(rowsCleared);
             GameplayUIController.UpdateScore();
+            SoundController.PlaySfx(GameData.GetAudioClip("Clear"));
         }
     }
 
     public static void GameOver() {
         GameplayUIController.ShowGameOver();
+        SoundController.PlaySfx(GameData.GetAudioClip("Top out"));
         currentTetromino = null;
     }
 }
