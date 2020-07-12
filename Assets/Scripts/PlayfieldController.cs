@@ -5,18 +5,24 @@ using Utilities;
 
 public class PlayfieldController :
     SingletonMonoBehaviour<PlayfieldController> {
-        
+    
     public Vector2Int dimensions;
     public float gravity;
+
+    [Header("Info Tetraminoes Positions")]
     public Transform nextPosition;
-    public TetrominoBase currentTetromino;
-    public TetrominoBase nextTetromino;
+    public Transform holdPosition;
     public static Block[, ] matrix;
+    public static bool canHold = true;
 
     List<TetrominoBase> bag = new List<TetrominoBase>();
 
     float lastTimeFall;
     float lastGravity;
+
+    TetrominoBase currentTetromino;
+    TetrominoBase nextTetromino;
+    TetrominoBase holdTetromino;
 
     Coroutine das;
     
@@ -61,12 +67,14 @@ public class PlayfieldController :
     }
 
     void HandleInput() {
-        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.X)) {
+        // Rotation
+        if(Input.GetKeyDown(KeyCode.UpArrow)) {
             currentTetromino.WallKick(1);
         } else if(Input.GetKeyDown(KeyCode.Z)) {
             currentTetromino.WallKick(-1);
         }
 
+        // Move Horizontal
         if(Input.GetKeyDown(KeyCode.RightArrow)) {
             if(das != null) {
                 StopCoroutine(das);
@@ -85,11 +93,17 @@ public class PlayfieldController :
             das = StartCoroutine(DelayAutoShift(Vector2Int.left));
         }
 
+        // Soft Drop
         if(Input.GetKeyDown(KeyCode.DownArrow)) {
             lastGravity = PlayfieldController.instance.gravity;
             gravity = 1/3f;
         } else if(Input.GetKeyUp(KeyCode.DownArrow)) {
             gravity = lastGravity;
+        }
+
+        // Hold
+        if(canHold && Input.GetKeyDown(KeyCode.Space)) {
+            Hold();
         }
     }
 
@@ -186,6 +200,29 @@ public class PlayfieldController :
 
         if(instance.bag.Count == 0)
             instance.FillBag();
+    }
+
+    void Hold() {
+        canHold = false;
+        TetrominoBase toHold = currentTetromino;
+
+        currentTetromino.transform.SetParent(holdPosition);
+        currentTetromino.transform.position = (
+            holdPosition.position - (Vector3) currentTetromino.centerOffset
+        );
+
+        if(holdTetromino) {
+            holdTetromino.transform.SetParent(null);
+            holdTetromino.transform.position = new Vector3(
+                instance.dimensions.x/2 - 1,
+                instance.dimensions.y
+            );
+            currentTetromino = holdTetromino;
+        } else {
+            SpawnTetromino();
+        }
+
+        holdTetromino = toHold;
     }
 
     public static void ClearRows() {

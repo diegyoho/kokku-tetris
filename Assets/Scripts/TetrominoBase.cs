@@ -128,7 +128,7 @@ public class TetrominoBase : MonoBehaviour {
             blocks.ForEach(block => block.Lock());
             PlayfieldController.ClearRows();
             PlayfieldController.SpawnTetromino();
-
+            PlayfieldController.canHold = true;
             Destroy(gameObject);
         } else {
             PlayfieldController.GameOver();
