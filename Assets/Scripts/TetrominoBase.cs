@@ -65,11 +65,10 @@ public class TetrominoBase : MonoBehaviour {
         
         if(!PlayfieldController.ValidPosition(this))
             SetPosition(lastPosition);
-        else {
-            if(landed != null) {
-                StopCoroutine(landed);
-                landed = StartCoroutine(LockDelay());
-            }
+        
+        if(landed != null) {
+            StopCoroutine(landed);
+            landed = null;
         }
     }
 
@@ -103,7 +102,12 @@ public class TetrominoBase : MonoBehaviour {
 
                 Rotate(-sign, ol.offsets);
             }
-        }  
+        }
+
+        if(landed != null) {
+            StopCoroutine(landed);
+            landed = null;
+        }
     }
 
     public void Drop() {
@@ -122,9 +126,10 @@ public class TetrominoBase : MonoBehaviour {
     }
 
     IEnumerator LockDelay() {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
 
         blocks.ForEach(block => block.Lock());
+        PlayfieldController.instance.SpawnTetromino();
 
         Destroy(gameObject);
     }

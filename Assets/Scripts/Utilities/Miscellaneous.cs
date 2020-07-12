@@ -183,18 +183,15 @@ namespace Utilities {
 			);
 		}
 
-		public static List<T> RandomizeOrder<T>(List<T> list) {
-			if (list == null) return null;
+		public static void Shuffle<T>(this List<T> list) {
+			if (list == null) return;
 
-			T[] array = list.ToArray();
 			for (int i = 0; i < list.Count; ++i) {
 				int rand = Random.Range(0, list.Count);
-				T temp = array[rand];
-				array[rand] = array[i];
-				array[i] = temp;
+				T temp = list[rand];
+				list[rand] = list[i];
+				list[i] = temp;
 			}
-
-			return new List<T>(array);
 		}
 
 		public static T[, ] ShuffleMatrix<T>(T[, ] arr) {

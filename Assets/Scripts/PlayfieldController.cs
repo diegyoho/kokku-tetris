@@ -11,10 +11,13 @@ public class PlayfieldController :
     public static Block[, ] matrix;
     public static TetrominoBase currentTetromino;
 
+    List<GameObject> bag = new List<GameObject>();
+
     float lastTimeFall;
 
     void Start() {
         Setup();
+        SpawnTetromino();
     }
 
     void Update() {
@@ -43,6 +46,8 @@ public class PlayfieldController :
         GetComponent<Renderer>().material.SetTextureScale(
             "_MainTex", dimensions
         );
+
+        FillBag();
     }
 
     public static bool ValidPosition(
@@ -67,5 +72,24 @@ public class PlayfieldController :
         }
 
         return true;
+    }
+
+    void FillBag() {
+        bag = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/Tetrominoes"));
+        bag.Shuffle();
+    }
+
+    public void SpawnTetromino() {
+        GameObject tetromino = bag[0];
+        bag.RemoveAt(0);
+
+        Instantiate(
+            tetromino,
+            new Vector3(dimensions.x/2 - 1, dimensions.y),
+            Quaternion.identity
+        );
+
+        if(bag.Count == 0)
+            FillBag();
     }
 }
