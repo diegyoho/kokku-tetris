@@ -21,7 +21,8 @@ public class PlayfieldController :
 
         transform.position = new Vector3(
             (dimensions.x / 2f) - .5f,
-            (dimensions.y / 2f) - .5f
+            (dimensions.y / 2f) - .5f,
+            .5f
         );
 
         transform.localScale = new Vector3(
