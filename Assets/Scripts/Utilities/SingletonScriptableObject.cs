@@ -16,7 +16,7 @@ namespace Utilities {
 			if (_ins == null) {
 				_ins = this as T;
 			} else {
-				Destroy(gameObject);
+				Destroy(this);
 			}
 		}
 	}
