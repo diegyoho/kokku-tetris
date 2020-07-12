@@ -7,10 +7,21 @@ public class PlayfieldController :
     SingletonMonoBehaviour<PlayfieldController> {
         
     public Vector2Int dimensions;
+    public float gravity;
     public Block[, ] matrix;
+    public static TetrominoBase currentTetromino;
+
+    float lastTimeFall;
 
     void Start() {
         Setup();
+    }
+
+    void Update() {
+        if(Time.time - lastTimeFall >= 1f/(60*gravity)) {
+            currentTetromino.Move(Vector2Int.down);
+            lastTimeFall = Time.time;
+        }
     }
 
     void Setup() {
@@ -35,20 +46,20 @@ public class PlayfieldController :
     }
 
     public static bool ValidPosition(
-        TetraminoBase tetramino
+        TetrominoBase tetromino
     ) {
 
-        foreach(Block block in tetramino.blocks) {
+        foreach(Block block in tetromino.blocks) {
             if(
-                block.matrixPosition.x < 0 ||
-                block.matrixPosition.x >= instance.dimensions.x ||
-                block.matrixPosition.y < 0 ||
+                block.matrixPosition.y < instance.dimensions.y &&
                 (
-                    block.matrixPosition.y < instance.dimensions.y &&
+                    block.matrixPosition.x < 0 ||
+                    block.matrixPosition.x >= instance.dimensions.x ||
+                    block.matrixPosition.y < 0 ||
                     instance.matrix[
-                    block.matrixPosition.x,
-                    block.matrixPosition.y
-                ]
+                        block.matrixPosition.x,
+                        block.matrixPosition.y
+                    ]
                 )
             ) {
                 return false;

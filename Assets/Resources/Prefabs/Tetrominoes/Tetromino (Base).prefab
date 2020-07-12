@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8164597755683592260}
   - component: {fileID: 6634977085272455898}
   m_Layer: 0
-  m_Name: Tetramino (Base)
+  m_Name: Tetromino (Base)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3772091362536361149}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d338a7ec81bfc724d993c401a5064293, type: 3}
+  m_Script: {fileID: 11500000, guid: 65401704bc5e8c548ae4c95ca94041a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   letter: 0

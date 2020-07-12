@@ -8,7 +8,7 @@ public class OffsetList {
     public Vector2Int[] offsets = new Vector2Int[4];
 }
 
-public enum TetraminoLetter {
+public enum TetrominoLetter {
     I,
     O,
     L,
@@ -18,9 +18,9 @@ public enum TetraminoLetter {
     Z
 }
 
-public class TetraminoBase : MonoBehaviour {
+public class TetrominoBase : MonoBehaviour {
 
-    public TetraminoLetter letter;
+    public TetrominoLetter letter;
     public int currentOrientation;
     public List<Block> blocks = new List<Block>();
     public Vector2Int[] basicOffsets = new Vector2Int[4];
@@ -37,6 +37,7 @@ public class TetraminoBase : MonoBehaviour {
 
     void Start() {
         blocks.AddRange(transform.GetComponentsInChildren<Block>());
+        PlayfieldController.currentTetromino = this;
     }
 
     void Update() {
@@ -46,9 +47,9 @@ public class TetraminoBase : MonoBehaviour {
             WallKick(-1);
         }
         if(Input.GetKeyDown(KeyCode.RightArrow)) {
-            Move(matrixPosition + Vector2Int.right);
+            Move(Vector2Int.right);
         } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
-            Move(matrixPosition + Vector2Int.left);
+            Move(Vector2Int.left);
         }
     }
 
@@ -56,9 +57,9 @@ public class TetraminoBase : MonoBehaviour {
         transform.position = new Vector3(position.x, position.y);
     }
 
-    void Move(Vector2Int position) {
+    public void Move(Vector2Int position) {
         Vector2Int lastPosition = matrixPosition;
-        SetPosition(position);
+        SetPosition(matrixPosition + position);
         
         if(!PlayfieldController.ValidPosition(this))
             SetPosition(lastPosition);
