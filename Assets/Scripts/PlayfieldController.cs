@@ -20,7 +20,6 @@ public class PlayfieldController :
 
     void Start() {
         Setup();
-        SpawnTetromino();
     }
 
     void Update() {
@@ -55,6 +54,14 @@ public class PlayfieldController :
         );
 
         FillBag();
+
+        StartCoroutine(DelaySpawn());
+    }
+
+    IEnumerator DelaySpawn() {
+        yield return new WaitForSeconds(1f);
+        SpawnTetromino();
+        lastTimeFall = Time.time;
     }
 
     void HandleInput() {
@@ -190,7 +197,7 @@ public class PlayfieldController :
     }
 
     public static void GameOver() {
-        Debug.Log("Game Over!");
+        GameplayUIController.ShowGameOver();
         currentTetromino = null;
     }
 }
