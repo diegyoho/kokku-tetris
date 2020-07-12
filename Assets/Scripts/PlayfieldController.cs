@@ -169,8 +169,9 @@ public class PlayfieldController :
     }
 
     public static void ClearRows() {
-        int fallHeight = 0;
         List<Block> cleared = new List<Block>();
+        int rowsCleared = 0;
+
         for(int y = 0; y < instance.dimensions.y; ++y) {
             cleared.Clear();
 
@@ -178,10 +179,10 @@ public class PlayfieldController :
                 if(matrix[x, y]) {
                     cleared.Add(matrix[x, y]);
                     
-                    if(fallHeight > 0) {
-                        matrix[x, y - fallHeight] = matrix[x, y];
-                        matrix[x, y - fallHeight].SetPosition(
-                            new Vector2Int(x, y - fallHeight)
+                    if(rowsCleared > 0) {
+                        matrix[x, y - rowsCleared] = matrix[x, y];
+                        matrix[x, y - rowsCleared].SetPosition(
+                            new Vector2Int(x, y - rowsCleared)
                         );
 
                         matrix[x, y] = null;
@@ -191,8 +192,13 @@ public class PlayfieldController :
 
             if(cleared.Count == instance.dimensions.x) {
                 cleared.ForEach(block => Destroy(block.gameObject));
-                fallHeight++;
+                rowsCleared++;
             }
+        }
+
+        if(rowsCleared > 0) {
+            GameController.Score(rowsCleared);
+            GameplayUIController.UpdateScore();
         }
     }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Utilities;
-using TMPro;
 
 public class MainMenuUIController :
     UIControllerBase<MainMenuUIController> {

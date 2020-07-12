@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Utilities;
-using TMPro;
 
 public class GameplayUIController :
     UIControllerBase<GameplayUIController> {
@@ -11,6 +10,14 @@ public class GameplayUIController :
     [Header("Screens")]
     [SerializeField]
     CanvasGroup gameOverScreen;
+
+    [Header("HUD")]
+    [SerializeField]
+    Text score;
+
+    public static void UpdateScore() {
+        instance.score.text = $"Score: {GameController.data.score}";
+    }
 
     public static void ShowGameOver() {
         instance.StartCoroutine(

@@ -13,11 +13,7 @@ public class LoadingController :
     public static bool isLoading = false;
 
     public override void Awake() {
-        if(LoadingController.instance)
-            Destroy(gameObject);
-
         base.Awake();
-        DontDestroyOnLoad(gameObject);
 
         uiController = GetComponent<LoadingUIController>();
     }

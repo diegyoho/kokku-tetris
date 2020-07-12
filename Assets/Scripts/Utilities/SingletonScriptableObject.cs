@@ -5,7 +5,9 @@ using UnityEngine;
 namespace Utilities {
 	public class SingletonMonoBehaviour<T> :
 		MonoBehaviour where T : Component {
-
+		
+		[SerializeField]
+		bool dontDestroyOnLoad;
 		static T _ins;
 
 		public static T instance {
@@ -15,8 +17,14 @@ namespace Utilities {
 		public virtual void Awake() {
 			if (_ins == null) {
 				_ins = this as T;
+
+				if(dontDestroyOnLoad)
+        			DontDestroyOnLoad(gameObject);
 			} else {
-				Destroy(this);
+				if(dontDestroyOnLoad)
+        			Destroy(gameObject);
+				else
+					Destroy(this);
 			}
 		}
 	}

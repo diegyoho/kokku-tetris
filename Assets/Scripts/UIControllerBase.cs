@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Utilities;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class UIControllerBase<T> :
     SingletonMonoBehaviour<T> where T : UIControllerBase<T> {
