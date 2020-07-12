@@ -53,6 +53,12 @@ public class TetrominoBase : MonoBehaviour {
         } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
             Move(Vector2Int.left);
         }
+
+        if(Input.GetKeyDown(KeyCode.DownArrow)) {
+            PlayfieldController.instance.gravity *= 5;
+        } else if(Input.GetKeyUp(KeyCode.DownArrow)) {
+            PlayfieldController.instance.gravity /= 5;
+        }
     }
 
     void SetPosition(Vector2Int position) {
@@ -129,6 +135,7 @@ public class TetrominoBase : MonoBehaviour {
         yield return new WaitForSeconds(.5f);
 
         blocks.ForEach(block => block.Lock());
+        PlayfieldController.instance.ClearRows();
         PlayfieldController.instance.SpawnTetromino();
 
         Destroy(gameObject);

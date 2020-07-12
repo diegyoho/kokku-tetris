@@ -13,6 +13,10 @@ public class Block : MonoBehaviour {
         }
     }
 
+    public void SetPosition(Vector2Int position) {
+        transform.position = new Vector3(position.x, position.y);
+    }
+
     public void Lock() {
         transform.SetParent(null);
         PlayfieldController.matrix[

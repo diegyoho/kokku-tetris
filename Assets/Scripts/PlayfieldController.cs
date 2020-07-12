@@ -92,4 +92,32 @@ public class PlayfieldController :
         if(bag.Count == 0)
             FillBag();
     }
+
+    public void ClearRows() {
+        int fallHeight = 0;
+        List<Block> cleared = new List<Block>();
+        for(int y = 0; y < dimensions.y; ++y) {
+            cleared.Clear();
+
+            for(int x = 0; x < dimensions.x; ++x) {
+                if(matrix[x, y]) {
+                    cleared.Add(matrix[x, y]);
+                    
+                    if(fallHeight > 0) {
+                        matrix[x, y - fallHeight] = matrix[x, y];
+                        matrix[x, y - fallHeight].SetPosition(
+                            new Vector2Int(x, y - fallHeight)
+                        );
+
+                        matrix[x, y] = null;
+                    }
+                }
+            }
+
+            if(cleared.Count == dimensions.x) {
+                cleared.ForEach(block => Destroy(block.gameObject));
+                fallHeight++;
+            }
+        }
+    }
 }
