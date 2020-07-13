@@ -220,6 +220,7 @@ public class PlayfieldController :
         canHold = false;
         TetrominoBase toHold = currentTetromino;
         
+        currentTetromino.ResetRotation();
         currentTetromino.CancelLock();
         currentTetromino.transform.SetParent(holdPosition);
         currentTetromino.transform.position = (

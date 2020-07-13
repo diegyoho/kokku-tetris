@@ -79,6 +79,11 @@ public class TetrominoBase : MonoBehaviour {
         currentOrientation = nextOrientation;
     }
 
+    public void ResetRotation() {
+        currentOrientation = 0;
+        transform.eulerAngles = Vector3.zero;
+    }
+
     public void WallKick(int sign) {
         Rotate(sign, basicOffsets);
 
