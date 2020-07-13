@@ -23,6 +23,7 @@ public class TetrominoBase : MonoBehaviour {
     public TetrominoLetter letter;
     public int currentOrientation;
     public List<Block> blocks = new List<Block>();
+    public Transform ghost;
     public Vector2 centerOffset;
     public Vector2Int[] basicOffsets = new Vector2Int[4];
     public List<OffsetList> offsetsList = new List<OffsetList>();
@@ -43,6 +44,19 @@ public class TetrominoBase : MonoBehaviour {
 
     void Start() {
         blocks.AddRange(transform.GetComponentsInChildren<Block>());
+
+        ghost = new GameObject("Ghost Piece").transform;
+        ghost.SetParent(transform);
+        ghost.position = transform.position;
+        blocks.ForEach(block => {
+            Instantiate(
+                Resources.Load<GameObject>("Prefabs/Block"),
+                block.transform.position,
+                Quaternion.identity,
+                ghost
+            );
+        });
+        ghost.gameObject.SetActive(false);
     }
 
     public void SetPosition(Vector2Int position) {
@@ -59,6 +73,8 @@ public class TetrominoBase : MonoBehaviour {
             SetPosition(lastPosition);
             return false;
         }
+
+        SetGhostPosition(matrixPosition);
 
         return true;
     }
@@ -100,6 +116,8 @@ public class TetrominoBase : MonoBehaviour {
             }
         }
 
+        SetGhostPosition(matrixPosition);
+
         CancelLock();
     }
 
@@ -139,5 +157,22 @@ public class TetrominoBase : MonoBehaviour {
         } else {
             PlayfieldController.GameOver();
         }
+    }
+
+    void SetGhostPosition(Vector2Int position) {
+        ghost.gameObject.SetActive(false);
+
+        int y = position.y - 1;
+
+        do {
+            SetPosition(new Vector2Int(matrixPosition.x, y--));
+        } while(PlayfieldController.ValidPosition(this));
+        
+        Vector2Int ghostPosition = matrixPosition + Vector2Int.up;
+        
+        SetPosition(position);
+        
+        ghost.position = (Vector2) ghostPosition;
+        ghost.gameObject.SetActive(true);
     }
 }
