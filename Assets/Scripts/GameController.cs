@@ -37,6 +37,7 @@ public class GameController :
         LoadingController.LoadScene(0);
         SaveData();
         yield return new WaitUntil(() => !LoadingController.isLoading);
+        saveData = LoadData();
         MainMenuUIController.UpdateHUD();
     }
 
