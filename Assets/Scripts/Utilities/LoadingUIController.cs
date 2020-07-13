@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Utilities;
-using TMPro;
 
 public class LoadingUIController :
     UIControllerBase<LoadingUIController> {
@@ -16,7 +15,7 @@ public class LoadingUIController :
     [SerializeField]
     Slider loadingBar = null;
     [SerializeField]
-    TextMeshProUGUI progressText = null;
+    Text progressText = null;
     
     void Start() {
         UpdateLoadingBar(0);
