@@ -194,7 +194,9 @@ public class PlayfieldController :
             instance.dimensions.x/2 - 1,
             instance.dimensions.y
         );
-        
+
+        instance.nextTetromino.ResetRotation();
+                
         instance.currentTetromino = instance.nextTetromino;
 
         instance.SetNextTetramino();
@@ -208,10 +210,12 @@ public class PlayfieldController :
             nextTetromino.gameObject,
             nextPosition.position -
             (Vector3) nextTetromino.centerOffset,
-            Quaternion.identity,
+            nextPosition.localRotation,
             nextPosition
         ).GetComponent<TetrominoBase>();
-
+        
+        nextTetromino.transform.eulerAngles = nextPosition.eulerAngles;
+        
         if(instance.bag.Count == 0)
             instance.FillBag();
     }
@@ -220,12 +224,12 @@ public class PlayfieldController :
         canHold = false;
         TetrominoBase toHold = currentTetromino;
         
-        currentTetromino.ResetRotation();
         currentTetromino.CancelLock();
         currentTetromino.transform.SetParent(holdPosition);
         currentTetromino.transform.position = (
             holdPosition.position - (Vector3) currentTetromino.centerOffset
         );
+        currentTetromino.ResetRotation();
 
         if(holdTetromino) {
             holdTetromino.transform.SetParent(null);
@@ -233,6 +237,7 @@ public class PlayfieldController :
                 instance.dimensions.x/2 - 1,
                 instance.dimensions.y
             );
+            holdTetromino.ResetRotation();
             currentTetromino = holdTetromino;
         } else {
             SpawnTetromino();

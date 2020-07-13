@@ -9,6 +9,8 @@ public class MainMenuUIController :
     
     [SerializeField]
     Text startLevel;
+    [SerializeField]
+    Slider startLevelSlider;
     
     [SerializeField]
     Text highscore;
@@ -27,6 +29,7 @@ public class MainMenuUIController :
     public void UpdateStartLevel(float value) {
         startLevel.text = $"LEVEL: {value}";
         GameController.startLevel = (int) value;
+        startLevelSlider.value = value;
     }
 
     public void ToggleSound() {
@@ -47,5 +50,6 @@ public class MainMenuUIController :
     public static void UpdateHUD() {
         UpdateHighscore();
         UpdateSound();
+        instance.UpdateStartLevel(GameController.startLevel);
     }
 }

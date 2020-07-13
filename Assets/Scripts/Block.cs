@@ -19,7 +19,6 @@ public class Block : MonoBehaviour {
 
     public void Lock() {
         transform.SetParent(null);
-        
         PlayfieldController.matrix[
             matrixPosition.x,
             matrixPosition.y

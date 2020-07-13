@@ -16,6 +16,8 @@ public class GameplayUIController :
     Text score = null;
     [SerializeField]
     Text level = null;
+    [SerializeField]
+    Text scored;
 
     public static void UpdateScore() {
         instance.score.text = GameController.saveData
@@ -25,6 +27,12 @@ public class GameplayUIController :
     public static void UpdateLevel() {
         instance.level.text =
             $"LEVEL {PlayfieldController.instance.currentLevel}";
+        instance.level.GetComponent<Animator>().SetTrigger("pulse");
+    }
+
+    public static void ShowScored(int scored) {
+        instance.scored.text = $"+{scored}";
+        instance.scored.GetComponent<Animator>().SetTrigger("show");
     }
 
     public static void ShowGameOver() {

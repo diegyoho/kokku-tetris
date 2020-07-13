@@ -730,6 +730,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 0
   startLevel: {fileID: 377723644}
+  startLevelSlider: {fileID: 877876184}
   highscore: {fileID: 237561815}
   soundButton: {fileID: 256114899}
 --- !u!1 &632086427

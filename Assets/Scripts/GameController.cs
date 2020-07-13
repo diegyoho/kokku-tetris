@@ -46,8 +46,12 @@ public class GameController :
             rowsCleared - 1, 0, instance.scorePerRows.Length - 1
         );
 
-        saveData.score += instance.scorePerRows[rowsCleared] *
+        int scored = instance.scorePerRows[rowsCleared] *
                             PlayfieldController.instance.currentLevel;
+
+        saveData.score += scored;
+
+        GameplayUIController.ShowScored(scored);
         
         if(saveData.score > saveData.highscore)
             saveData.highscore = saveData.score;
