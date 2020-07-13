@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>kokku-tetris</title>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+      function clickToLoad() {
+          UnityLoader.instantiate("unityContainer", "Build/docs.json");
+          document.querySelector('#load').remove();
+          window.removeEventListener('click', clickToLoad);
+      }
+
+      window.addEventListener('click', clickToLoad);
+    </script>
+  </head>
+  <body>
+    <div id="unityContainer" style="width: 720px; height: 720px; margin: auto"></div>
+    <div id="load" style="position: absolute; top: 0; font-size: 32px;">
+      Click to Load!
+    </div>
+  </body>
+</html>

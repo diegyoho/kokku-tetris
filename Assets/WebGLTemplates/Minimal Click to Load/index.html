@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>%UNITY_WEB_NAME%</title>
+    <script src="%UNITY_WEBGL_LOADER_URL%"></script>
+    <script>
+      function clickToLoad() {
+          UnityLoader.instantiate("unityContainer", "%UNITY_WEBGL_BUILD_URL%");
+          document.querySelector('#load').remove();
+          window.removeEventListener('click', clickToLoad);
+      }
+
+      window.addEventListener('click', clickToLoad);
+    </script>
+  </head>
+  <body>
+    <div id="unityContainer" style="width: %UNITY_WIDTH%px; height: %UNITY_HEIGHT%px; margin: auto"></div>
+    <div id="load" style="position: absolute; top: 0; font-size: 32px;">
+      Click to Load!
+    </div>
+  </body>
+</html>

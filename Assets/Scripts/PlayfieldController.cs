@@ -230,6 +230,7 @@ public class PlayfieldController :
             holdPosition.position - (Vector3) currentTetromino.centerOffset
         );
         currentTetromino.ResetRotation();
+        currentTetromino.ghost.gameObject.SetActive(false);
 
         if(holdTetromino) {
             holdTetromino.transform.SetParent(null);
