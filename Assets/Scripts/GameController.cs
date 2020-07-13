@@ -10,11 +10,12 @@ public class GameController :
 
     public GameData gameData;
     public static SaveData saveData;
-    public static int startLevel;
+    public static int startLevel = 1;
 
     void Start() {
-        saveData = new SaveData();
+        saveData = LoadData();
         SoundController.PlayMusic(GameData.GetAudioClip("BGM"), .5f);
+        MainMenuUIController.UpdateHUD();
     }
 
     public static void Play() {
@@ -34,7 +35,9 @@ public class GameController :
 
     IEnumerator IEQuit() {
         LoadingController.LoadScene(0);
+        SaveData();
         yield return new WaitUntil(() => !LoadingController.isLoading);
+        MainMenuUIController.UpdateHUD();
     }
 
     public static void Score(int rowsCleared) {
@@ -42,6 +45,22 @@ public class GameController :
             rowsCleared - 1, 0, instance.scorePerRows.Length - 1
         );
 
-        saveData.score += instance.scorePerRows[rowsCleared];
+        saveData.score += instance.scorePerRows[rowsCleared] *
+                            PlayfieldController.instance.currentLevel;
+        
+        if(saveData.score > saveData.highscore)
+            saveData.highscore = saveData.score;
+    }
+
+    public static void SaveData() {
+        PlayerPrefs.SetString("tetris-save", JsonUtility.ToJson(saveData));
+    }
+
+    public static SaveData LoadData() {
+        SaveData saveData = JsonUtility.FromJson<SaveData>(
+            PlayerPrefs.GetString("tetris-save", "")
+        );
+
+        return saveData == null ? new SaveData() : saveData;
     }
 }
