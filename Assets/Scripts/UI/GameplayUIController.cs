@@ -14,10 +14,17 @@ public class GameplayUIController :
     [Header("HUD")]
     [SerializeField]
     Text score = null;
+    [SerializeField]
+    Text level = null;
 
     public static void UpdateScore() {
         instance.score.text = GameController.saveData
                                 .score.ToString("D6");
+    }
+
+    public static void UpdateLevel() {
+        instance.level.text =
+            $"LEVEL {PlayfieldController.instance.currentLevel}";
     }
 
     public static void ShowGameOver() {

@@ -8,6 +8,7 @@ public class PlayfieldController :
     
     public Vector2Int dimensions;
     public float gravity;
+    public int currentLevel = 1;
 
     [Header("Info Tetraminoes Positions")]
     public Transform nextPosition;
@@ -25,10 +26,17 @@ public class PlayfieldController :
     TetrominoBase holdTetromino;
 
     Coroutine das;
-    
 
-    void Start() {
-        Setup();
+    int rowsRequired = 10;
+    int _clearedRowsCount = 0;
+    int clearedRowsCount {
+        get { return _clearedRowsCount; }
+        set {
+            _clearedRowsCount = value;
+            if(_clearedRowsCount >= rowsRequired) {
+                LevelUp();
+            }
+        }
     }
 
     void Update() {
@@ -42,28 +50,34 @@ public class PlayfieldController :
         }
     }
 
-    void Setup() {
+    public static void Setup(int intialLevel = 1) {
+        instance.currentLevel = intialLevel;
+
         matrix = new Block[
-            dimensions.x,
-            dimensions.y
+            instance.dimensions.x,
+            instance.dimensions.y
         ];
 
-        transform.position = new Vector3(
-            (dimensions.x / 2f) - .5f,
-            (dimensions.y / 2f) - .5f,
+        instance.transform.position = new Vector3(
+            (instance.dimensions.x / 2f) - .5f,
+            (instance.dimensions.y / 2f) - .5f,
             .5f
         );
 
-        transform.localScale = new Vector3(
-            dimensions.x, dimensions.y, 1
+        instance.transform.localScale = new Vector3(
+            instance.dimensions.x, instance.dimensions.y, 1
         );
 
-        GetComponent<Renderer>().material.SetTextureScale(
-            "_MainTex", dimensions
+        instance.GetComponent<Renderer>().material.SetTextureScale(
+            "_MainTex", instance.dimensions
         );
 
-        FillBag();
-        SetNextTetramino();
+        instance.gravity = GameData.GetGravityForLevel(instance.currentLevel);
+        instance.rowsRequired = 10 * instance.currentLevel;
+        GameplayUIController.UpdateLevel();
+
+        instance.FillBag();
+        instance.SetNextTetramino();
     }
 
     void HandleInput() {
@@ -205,7 +219,8 @@ public class PlayfieldController :
     void Hold() {
         canHold = false;
         TetrominoBase toHold = currentTetromino;
-
+        
+        currentTetromino.CancelLock();
         currentTetromino.transform.SetParent(holdPosition);
         currentTetromino.transform.position = (
             holdPosition.position - (Vector3) currentTetromino.centerOffset
@@ -223,6 +238,15 @@ public class PlayfieldController :
         }
 
         holdTetromino = toHold;
+    }
+
+    void LevelUp() {
+        currentLevel++;
+        gravity = GameData.GetGravityForLevel(currentLevel);
+        clearedRowsCount -= 10;
+        rowsRequired = 10;
+        GameplayUIController.UpdateLevel();
+        SoundController.PlaySfx(GameData.GetAudioClip("Level Up"));
     }
 
     public static void ClearRows() {
@@ -257,6 +281,7 @@ public class PlayfieldController :
             GameController.Score(rowsCleared);
             GameplayUIController.UpdateScore();
             SoundController.PlaySfx(GameData.GetAudioClip("Clear"));
+            instance.clearedRowsCount += rowsCleared;
         }
     }
 

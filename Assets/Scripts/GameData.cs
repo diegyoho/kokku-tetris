@@ -14,6 +14,8 @@ public class GameData : SingletonScriptableObject<GameData> {
     
     [SerializeField]
     List<AudioClipInfo> audioClipInfos = new List<AudioClipInfo>();
+    [SerializeField]
+    float[] gravityForLevel;
 
     public static AudioClip GetAudioClip(string name) {
         AudioClipInfo audioClipInfo = instance.audioClipInfos.Find(
@@ -24,5 +26,13 @@ public class GameData : SingletonScriptableObject<GameData> {
             return audioClipInfo.clip;
 
         return null;
+    }
+
+    public static float GetGravityForLevel(int level) {
+        level = (int) Mathf.Clamp(
+            level - 1, 0, instance.gravityForLevel.Length - 1
+        );
+
+        return instance.gravityForLevel[level];
     }
 }

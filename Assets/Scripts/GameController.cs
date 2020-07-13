@@ -10,6 +10,7 @@ public class GameController :
 
     public GameData gameData;
     public static SaveData saveData;
+    public static int startLevel;
 
     void Start() {
         saveData = new SaveData();
@@ -23,6 +24,7 @@ public class GameController :
     IEnumerator IEPlay() {
         LoadingController.LoadScene(1);
         yield return new WaitUntil(() => !LoadingController.isLoading);
+        PlayfieldController.Setup(startLevel);
         PlayfieldController.StartSpawn();
     }
 

@@ -53,10 +53,7 @@ public class TetrominoBase : MonoBehaviour {
         Vector2Int lastPosition = matrixPosition;
         SetPosition(matrixPosition + position);
         
-        if(landed != null) {
-            StopCoroutine(landed);
-            landed = null;
-        }
+        CancelLock();
 
         if(!PlayfieldController.ValidPosition(this)) {
             SetPosition(lastPosition);
@@ -98,14 +95,11 @@ public class TetrominoBase : MonoBehaviour {
             }
         }
 
-        if(landed != null) {
-            StopCoroutine(landed);
-            landed = null;
-        }
+        CancelLock();
     }
 
     public void Drop() {
-        if(landed != null) return;
+        if(isLanded) return;
 
         bool fall = Move(Vector2Int.down);
         
@@ -119,6 +113,13 @@ public class TetrominoBase : MonoBehaviour {
         }
         
         SetPosition(lastPosition);
+    }
+
+    public void CancelLock() {
+        if(landed != null) {
+            StopCoroutine(landed);
+            landed = null;
+        }
     }
 
     IEnumerator LockDelay() {
