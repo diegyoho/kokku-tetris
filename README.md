@@ -60,10 +60,10 @@ The game is available on the following platforms:
 <div align="center">
   <div>Developed by 🤘 Diego Moreira</div>
   <br>
-  <a href="https://github.com/diegyohoho/" >
-    <img alt="My Linkedin" src="https://img.shields.io/badge/-diegyohoho-%230077B5?style=social&logo=github">
+  <a href="https://github.com/diegyoho/" >
+    <img alt="My Linkedin" src="https://img.shields.io/badge/-diegyoho-%230077B5?style=social&logo=github">
   </a>
-  <a href="https://www.linkedin.com/in/diegyohoho/" >
-    <img alt="My Linkedin" src="https://img.shields.io/badge/-diegyohoho-%230077B5?style=social&logo=linkedin">
+  <a href="https://www.linkedin.com/in/diegyoho/" >
+    <img alt="My Linkedin" src="https://img.shields.io/badge/-diegyoho-%230077B5?style=social&logo=linkedin">
   </a>
 </div>
